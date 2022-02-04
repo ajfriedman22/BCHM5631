@@ -1,6 +1,6 @@
 ---
 title: "Nextflow"
-author: "JR" 
+author: "JR"
 date: "9/29/2021"
 output: html_document
 ---
@@ -193,5 +193,4 @@ Sometimes nextflow versions don't work so well with a given pipeline.
 2) To updarte nextflow:
 
 Nextflow self-update
-
 
