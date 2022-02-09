@@ -3,6 +3,8 @@ title: "Nextflow"
 author: "JR"
 date: "9/29/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 Today we will install nextflow and install the nf-core/chip-seq pipeline. 
@@ -11,7 +13,7 @@ Briefly, Nextflow is a taks manager that will send and organize thousands of tas
 
 NF_CORE has developed pipelines for ChIPseq, RNAseq, ATACseq and pretty much anything with seq. 
 
-Firstt: We need to install Nextflow on fiji so they can communicate. 
+First: We need to install Nextflow on fiji so they can communicate. 
 
 Ultimately we will use nextflow to task manage the NF_CORE pipeline(s)
 There are so many tasks in the pipelines that it has all the QC needed for publicaton.
