@@ -243,6 +243,11 @@ We can get more information from then results of findOverlaps. Let's look at env
 table(ovf@from) 
 # bit too much info -- let's table the table
 
+table(table(ovf@from))
+
+#Beyond this isn't very helpful
+table(table(table(ovf@from)))
+table(table(table(table(ovf@from))))
 table(table(table(table(table(ovf@from)))))
 
 # NOTE: we see how many peaks in peak1 file had multiple overlaps
