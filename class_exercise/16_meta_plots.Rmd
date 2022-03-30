@@ -15,13 +15,13 @@ library(GenomicRanges)
 library(rtracklayer)
 library(tidyverse)
 
-#ComplexHeatmap is BioConducter thus needing biocManger::install
+#ComplexHeatmap is BioConducter thus needing biocManager::install
 library(ComplexHeatmap)
 library(circlize)
 
-source("../../../../util/plotting_functions.R")
-source("../../../../util/intersect_functions.R")
-source("../../../../util/_setup.R")
+source("../../../util/plotting_functions.R")
+source("../../../util/intersect_functions.R")
+source("../../../util/_setup.R")
 ```
 
 Today our goal is to make "meta plots" of promoter binding profiles.
@@ -71,7 +71,7 @@ Here we're going to create a GRanges object that contains 6kb promoter windows f
 
 # First thing to do is load in all the promoters we made in 12_ 
 # Loading in the promoter regions for lncRNAs and mRNAs 
-all_promoters_gr <- rtracklayer::import("/path/gene_annotation_files/lncRNA_mrna_promoters.gtf")
+all_promoters_gr <- rtracklayer::import("/scratch/Shares/rinnclass/CLASS_2022/AF/BCHM5631/class_exercise/analysis/11_consensus_peaks/gene_annotation_files/lncRNA_mrna_promoters.gtf")
 
 # all_promoters_gr <- rtracklayer::import("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/class_exeRcises/analysis/11_consensus_peaks/gene_annotation_files/lncRNA_mrna_promoters.gtf")
 
@@ -356,7 +356,7 @@ ggplot(combined_metaplot_profile,
                      name = "") + 
   ylab("Peak frequency") + 
   scale_color_manual(values = c("#424242","#a8404c"))
-
+ggsave('figures/mrna_lncrna_comb_metaplot.pdf')
 # combinig on the same plot shows the difference in binding !
 ```
 
