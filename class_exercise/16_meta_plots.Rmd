@@ -462,59 +462,43 @@ write_rds(metaplot_df, "metaplot_df_final_test.rds")
 
 ##### START POINT ########
 ```{r START POINT TO CREATE META_PLOTS}
-
 # read in metaplot_df
 metaplot_df <- read_rds("metaplot_df_final.rds")
 # metaplot_df <- read_rds("metaplot_df.rds")
-
 # Pivot wider into a matrix
 # careful we don't have duplicated rows
 # we shouldn't since we ran distinct above.
-
 metaplot_filtered_matrix <- metaplot_df %>% 
   pivot_wider(names_from = x, values_from = dens) %>%
   column_to_rownames("dbp") %>%
   as.matrix()
-
 # Get rid of NA rows. Not enough data to calculate a metaplot.
 nrow(metaplot_filtered_matrix)
 dim(metaplot_filtered_matrix)
-
 # Let's see how many have NA values
 table(rowSums(is.na(metaplot_filtered_matrix)))
-
 # Let's filter out those with NAs
-metaplot_filtered_matrix <- metaplot_filtered_matrix[rowSums(is.na(metaplot_filtered_matrix)) == 0,]
-
-
+# metaplot_filtered_matrix <- metaplot_filtered_matrix[rowSums(is.na(metaplot_filtered_matrix)) == 0,]
 # Z-Scale the rows for clustering (not needed for profile plots)
 mm_scaled <- t(scale(t(metaplot_filtered_matrix)))
-
 # clustering
 metaplot_hclust <- hclust(dist(mm_scaled), method = "complete")
-
 # plotting
 plot(metaplot_hclust)
-
 # Plot the dendrogram
-pdf("figures/tss_profile_dendrogram.pdf", height = 10, width = 27)
+pdf("tss_profile_dendrogram.pdf", height = 10, width = 27)
 par(cex=0.3)
 plot(metaplot_hclust)
 dev.off()
-
 # Cut the tree to make some clusters let's start with 10
 clusters <- cutree(metaplot_hclust, k=10)
 table(clusters)
-
 # Let's shrink to 4 clusters based on table
-clusters <- cutree(metaplot_hclust, k = 3)
+clusters <- cutree(metaplot_hclust, k = 4)
 table(clusters)
-
-
 # Let's make a heatmap now.
 col_fun <- colorRamp2(c(-3, 0, 3), c("#5980B3", "#ffffff", "#B9605D"))
 split <- data.frame(split = c(rep("-3kb",3000), rep("+3kb", 3000)))
-
 # pdf("figures/tss_profile_heatmap.pdf", height = 35, width = 10)
 Heatmap(mm_scaled, cluster_columns = FALSE, col = col_fun, border = TRUE, 
         show_column_names = FALSE,
@@ -522,17 +506,13 @@ Heatmap(mm_scaled, cluster_columns = FALSE, col = col_fun, border = TRUE,
         column_split = split,
         column_gap = unit(0, "mm"),row_names_gp = gpar(fontsize = 7))
 # dev.off()
-
 # Now a heatmap with only 4 clusters since most of the data is the same.
-
-Heatmap(mm_scaled[clusters == 3,], cluster_columns = FALSE, col = col_fun, border = TRUE, 
+Heatmap(mm_scaled[clusters == 2,], cluster_columns = FALSE, col = col_fun, border = TRUE, 
         show_column_names = FALSE,
         use_raster = TRUE,
         column_split = split,
         column_gap = unit(0, "mm"),row_names_gp = gpar(fontsize = 7))
 par(cex = 1)
-
-
 ```
 
 # Looking at some example meta-plots
@@ -540,26 +520,16 @@ Here is some fun code to pick your favorite DBP and check out the profile.
 I chose those DBPs that seemed to have the most different binding profiles.
 
 ```{r meta-plots of most different binding profiles by clustering}
-
 # H3K4me1 H4K20me1 H3K36me3 MBD4:
-
 # H3K4me1: shows inverse pattern to most with depletion at TSS
-
 plot_tss_profile(metaplot_filtered_matrix, "H3K4me1", save_pdf = TRUE)
-
 # H3K36me3: also depleted at TSS as expected marks genebodies 
-
 plot_tss_profile(metaplot_filtered_matrix, "H3K36me3", save_pdf = TRUE)
-
-
 # KAT2B, H3K9me3, NFIC cluster:
 # H3K9me3: seems to go into gene body
 plot_tss_profile(metaplot_filtered_matrix, "H3K9me3", save_pdf = TRUE)
-
-
 # EP300: shows a very wide profile.
-plot_tss_profile(metaplot_matrix, "EP300", save_pdf = TRUE)
-
+plot_tss_profile(metaplot_filtered_matrix, "EP300", save_pdf = TRUE)
 # saving metaplot_filtered_matrix
 write_rds(metaplot_filtered_matrix, "metaplot_filtered_matrix.rds")
 ```
