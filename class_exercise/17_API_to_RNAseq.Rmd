@@ -12,16 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 options(stringsAsFactors = FALSE)
 library(tidyverse)
 
-install.packages("httr")
 library(httr)
 
-install.packages("janitor")
 library(janitor)
 
-install.packages("purr")
 library(purrr)
 
-source("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/util/encode_functions.R")
+source("/scratch/Shares/rinnclass/CLASS_2022/AF/BCHM5631/util/encode_functions.R")
 ```
 
 Goal: to downlaod a RNAseq data from HEPG2 that is fractionated by cellular compartment
@@ -271,6 +268,7 @@ table(summary(map_example))
 
 # let's index and look
 map_example[[1]]
+hist(map_example[[1]])
 
 # another one
 map_example[[2]]
@@ -457,7 +455,7 @@ md5 <- samples %>%
 
 write_lines(md5$line, "fastq/md5.txt")
 # Now let's run it.
- md5_results <- system("cd fastq; md5sum -c md5.txt")
+md5_results <- system("cd fastq; md5sum -c md5.txt")
  
 # Nice they all look correct -- but let's save this result
 write.csv(md5, "fastq/md5_check.csv")
@@ -553,7 +551,7 @@ Let's create a sample column using mutate -- and we'll clean up the names
 
 ```{r creating design file}
 
-# base_path <- paste0("/scratch/Shares/rinnclass/CLASS_2022/JR/CLASS_2022/class_exeRcises/analysis/17_API_RNASEQ/fastq/")
+base_path <- paste0("/scratch/Shares/rinnclass/CLASS_2022/AF/BCHM5631/class_exercise/analysis/17_API_RNASEQ/fastq/")
 
 # There's spaces in the names currently and we need to get rid of those.
 design <- samplesheet %>%
