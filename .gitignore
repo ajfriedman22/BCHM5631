@@ -67,4 +67,6 @@ data*
 .nextflow.log
 .nextflow.log.1
 *.log*
+*.fastq.gz
+*.tsv
 
