@@ -125,7 +125,7 @@ Goto /analysis/18_running_nf_core folder, nano and paste in below
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=6gb
-#SBATCH --time=20:00:00
+#SBATCH --time=10:00:00
 #SBATCH --output=nextflow.out
 #SBATCH --error=nextflow.err
 
